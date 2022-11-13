@@ -2,5 +2,6 @@
 
 ```mermaid
 stateDiagram-v2
-    ./mtree $PATH --> [*]
+    s1 : mtree $PATH
+    s1 --> json 
 ```
