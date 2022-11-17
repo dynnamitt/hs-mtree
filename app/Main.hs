@@ -3,9 +3,9 @@ module Main where
 import Data.Maybe
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
-import System.Directory.Contents
 import System.Environment (getArgs, getProgName)
 import System.Exit
+import System.Directory.Tree
 
 toolDescription :: String
 toolDescription = "Traverse directory tool"
@@ -13,11 +13,16 @@ toolDescription = "Traverse directory tool"
 main :: IO ()
 main = do
   startPath <- parseArgs
-  putStrLn startPath
-  t0 <- buildDirTree startPath
-  let t2 = walkDirTree "./code" $ fromJust t0
-  let t = fromJust t2
-  T.putStrLn $ drawDirTree t
+  (_ :/ Dir _ xs ) <- readDirectory startPath
+  -- fail unless dir, since un-pure IO
+  print  (meta xs)
+
+
+meta [] = ""
+meta (x:xs) 
+  | null xs = name x
+  | otherwise = name x ++ "/ " ++ meta xs
+
 
 -- help
 usage :: IO ()
