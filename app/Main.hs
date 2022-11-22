@@ -22,12 +22,12 @@ meta :: [DirTree a] -> Int -> String
 meta [] _ = ""
 meta ( x : xs) pad
   | null xs = pad' ++ n' x 
-  | otherwise = pad' ++ n' x ++ "\n" ++ meta xs (pad + 2)
+  | otherwise = pad' ++ n' x ++ "\n" ++ meta xs pad
   where 
     pad' = replicate pad ' '
-    n' (Dir n c) = "[" ++ n ++ "]\n   " ++ meta c pad 
-    n' (File n f) = n
-    n' (Failed n err) = "err:" ++ n 
+    n' (Dir n c) = "[" ++ n ++ "]\n"  ++ meta c (pad + 2)
+    n' (File n _) = n
+    n' (Failed n err) = "err:" ++ n ++ ":" ++ show err 
 
 -- help
 usage :: IO ()
