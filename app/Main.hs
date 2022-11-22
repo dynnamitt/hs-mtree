@@ -14,7 +14,7 @@ toolDescription = "Traverse directory tool"
 main :: IO ()
 main = do
   startPath <- parseArgs
-  (_ :/ Dir _ xs ) <- readDirectory startPath
+  (_ :/ Dir _ xs ) <- build startPath
   -- fail unless dir, since un-pure IO
   putStrLn $ meta xs 0
 
