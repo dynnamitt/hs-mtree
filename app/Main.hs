@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Main where
 
 import Data.Maybe
@@ -7,7 +8,7 @@ import System.Environment (getArgs, getProgName)
 import System.Exit
 import System.Directory.Tree
 
-toolDescription :: String
+toolDescription :: T.Text
 toolDescription = "Traverse directory tool"
 
 main :: IO ()
@@ -15,20 +16,25 @@ main = do
   startPath <- parseArgs
   (_ :/ Dir _ xs ) <- readDirectory startPath
   -- fail unless dir, since un-pure IO
-  print  (meta xs)
+  putStrLn $ meta xs 0
 
-
-meta [] = ""
-meta (x:xs) 
-  | null xs = name x
-  | otherwise = name x ++ "/ " ++ meta xs
-
+meta :: [DirTree a] -> Int -> String
+meta [] _ = ""
+meta ( x : xs) pad
+  | null xs = pad' ++ n' x 
+  | otherwise = pad' ++ n' x ++ "\n" ++ meta xs (pad + 2)
+  where 
+    pad' = replicate pad ' '
+    n' (Dir n c) = "[" ++ n ++ "]\n   " ++ meta c pad 
+    n' (File n f) = n
+    n' (Failed n err) = "err:" ++ n 
 
 -- help
 usage :: IO ()
 usage = do
   prog <- getProgName
-  putStrLn toolDescription
+  let prog' = T.pack prog
+  T.putStrLn toolDescription
   putStrLn "usage:"
   putStrLn $ "  " ++ prog ++ " <Directory>"
 
