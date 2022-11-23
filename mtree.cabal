@@ -58,7 +58,7 @@ library
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base >=4.16
+    build-depends:    base >=4.17
 
     -- Directories containing source files.
     hs-source-dirs:   src
@@ -78,7 +78,7 @@ executable mtree
 
     -- Other library packages from which modules are imported.
     build-depends:
-        base >=4.16,
+        base >=4.17,
         directory-tree >=0.12,
         text >=1.2.4,
         mtree
@@ -103,4 +103,4 @@ test-suite hs-m-tree-test
     main-is:          MyLibTest.hs
 
     -- Test dependencies.
-    build-depends:    base >=4.16
+    build-depends:    base >=4.17
